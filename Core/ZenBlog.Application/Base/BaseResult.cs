@@ -1,4 +1,5 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.Text.Json.Serialization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ZenBlog.Application.Base;
 
@@ -8,7 +9,9 @@ public class BaseResult<T>
     public T? Data { get; set; }
     public IEnumerable<Error>? Errors { get; set; }
 
+    [JsonIgnore]
     public bool IsSuccess => Errors == null || !Errors.Any();
+    [JsonIgnore]
     public bool IsFailure => !IsSuccess;
 
     public static BaseResult<T> Success(T data)
