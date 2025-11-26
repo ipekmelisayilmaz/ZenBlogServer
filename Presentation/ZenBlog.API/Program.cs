@@ -2,6 +2,7 @@ using ZenBlog.Persistence.Extensions;
 using ZenBlog.Application.Extensions;
 using ZenBlog.API.Endpoints.Registration;
 using Scalar.AspNetCore;
+using ZenBlog.API.CustomMiddlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
-
+app.UseMiddleware<CustomExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

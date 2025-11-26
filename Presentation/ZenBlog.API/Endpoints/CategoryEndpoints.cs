@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using ZenBlog.Application.Features.Categories.Commands;
 using ZenBlog.Application.Features.Categories.Queries;
 
 namespace ZenBlog.API.Endpoints
@@ -9,13 +10,26 @@ namespace ZenBlog.API.Endpoints
         {
             var categories = app.MapGroup(prefix: "/categories").WithTags("Categories");
 
-            categories.MapGet(pattern: "", async (IMediator _mediator) =>
+            categories.MapGet(string.Empty, async (IMediator mediator) =>
             {
-                var response = await _mediator.Send(new GetCategoryQuery());
+                var response = await mediator.Send(new GetCategoryQuery());
                 return response.IsSuccess ? Results.Ok(response)
                     : Results.BadRequest(response);
-
-
+            });
+            categories.MapPost(string.Empty,
+                async (CreateCategoryCommand command, IMediator mediator) =>
+                {
+                    var response = await mediator.Send(command);
+                    return response.IsSuccess ? Results.Ok(response)
+                        : Results.BadRequest(response);
+                });
+            categories.MapGet("/{id:guid}", 
+                async (Guid id, IMediator mediator) =>
+            {
+                var response = await mediator.Send(new GetCategoryByIdQuery( id ));
+                return response.IsSuccess ? Results.Ok(response)
+                    
+                    : Results.BadRequest(response);
             });
         }
     }
