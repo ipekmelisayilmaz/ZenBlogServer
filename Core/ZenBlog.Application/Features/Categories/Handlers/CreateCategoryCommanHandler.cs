@@ -20,7 +20,7 @@ namespace ZenBlog.Application.Features.Categories.Handlers
             await _repository.CreateAsync(category);
             var result = await _unitOfWork.SaveChangesAsync();
             return result ? BaseResult<bool>.Success(result)
-                          : BaseResult<bool>.Fail();
+                          : BaseResult<bool>.Fail("Category couldn't be added");
         }
     }
 }
