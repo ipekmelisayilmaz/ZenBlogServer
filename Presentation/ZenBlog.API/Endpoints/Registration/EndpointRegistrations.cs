@@ -5,6 +5,8 @@
         public static void RegisterEndpoints(this IEndpointRouteBuilder app)
         {
             app.RegisterCategoryEndpoints();
+            app.RegisterBlogEndpoints();
+            app.RegisterUserEndpoints();
             // Diğer endpoint kayıtları buraya eklenecek
         }
     }
